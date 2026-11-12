@@ -199,14 +199,14 @@ function render() {
     el.innerHTML = `
       <div class="flex gap-3 items-center flex-wrap">
         <input data-f="name" class="flex-1 min-w-[10rem] font-semibold text-lg" placeholder="Player ${i + 1} name" value="${esc(p.name)}">
+        ${(() => { const locked = !p.host && state.players.some(x => x.host);
+        return `<label class="text-sm flex items-center gap-1.5 ${locked ? 'opacity-40 cursor-not-allowed' : 'cursor-pointer'}" ${locked ? 'title="Only one bank allowed. Uncheck the current bank first."' : ''}><input type="checkbox" data-f="host" class="w-4 h-4 p-0 accent-emerald-700" ${p.host ? 'checked' : ''} ${locked ? 'disabled' : ''}> Bank</label>`; })()}
         <label class="text-sm flex items-center gap-2">Buy-out $
           <input data-f="out" type="number" min="0" step="any" inputmode="decimal" class="w-28" placeholder="0" value="${esc(p.out)}">
         </label>
         ${p.host ? '' : `<select data-f="outMethod" class="w-28 ${payClass(p.outMethod)}" aria-label="Buy-out payment method" title="How this player was paid out">
           ${OUT_METHODS.map(m => `<option ${m === p.outMethod ? 'selected' : ''}>${m}</option>`).join('')}
         </select>`}
-        ${(() => { const locked = !p.host && state.players.some(x => x.host);
-        return `<label class="text-sm flex items-center gap-1.5 ${locked ? 'opacity-40 cursor-not-allowed' : 'cursor-pointer'}" ${locked ? 'title="Only one bank allowed. Uncheck the current bank first."' : ''}><input type="checkbox" data-f="host" class="w-4 h-4 p-0 accent-emerald-700" ${p.host ? 'checked' : ''} ${locked ? 'disabled' : ''}> Bank</label>`; })()}
         <button data-act="rmPlayer" class="text-stone-400 hover:text-red-600 text-sm px-2" aria-label="Remove player">Remove</button>
       </div>
       <div class="mt-3 space-y-2">
